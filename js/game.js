@@ -10,7 +10,7 @@ var keepTrackOfFrame = false;
 var isIdle = false;
 var inTransition = false;
 
-var CMODE = DRAWMODE.BATTLE_MAIN; // mode of the game
+var CMODE = DRAWMODE.LOADING.BASE; // mode of the game
 var NMODE = -1;
 var bgMode = -1;
 var lineIndex = 0;
@@ -48,7 +48,19 @@ var textures = {
     battleBase: null,
 
     battleFoeBox: null,
-    battlePlayerBox: null
+    battlePlayerBox: null,
+
+    meme1: null,
+    meme2: null,
+    meme3: null,
+    meme4: null,
+    meme5: null,
+    meme6: null,
+    meme7: null,
+    meme8: null,
+
+    epilogue: null,
+    classPicture: null
 };
 
 var audio = {
@@ -208,6 +220,47 @@ function loadTextures() {
         textures.battlePlayerBox = new Image();
         textures.battlePlayerBox.onload = onLoadedFunction;
         textures.battlePlayerBox.src = "./img/game/battlePlayerBox.png";
+
+        textures.meme1 = new Image();
+        textures.meme1.onload = onLoadedFunction;
+        textures.meme1.src = "./img/meme/meme1.png";
+
+        textures.meme2 = new Image();
+        textures.meme2.onload = onLoadedFunction;
+        textures.meme2.src = "./img/meme/meme2.png";
+
+        textures.meme3 = new Image();
+        textures.meme3.onload = onLoadedFunction;
+        textures.meme3.src = "./img/meme/meme3.png";
+
+        textures.meme4 = new Image();
+        textures.meme4.onload = onLoadedFunction;
+        textures.meme4.src = "./img/meme/meme4.png";
+
+        textures.meme5 = new Image();
+        textures.meme5.onload = onLoadedFunction;
+        textures.meme5.src = "./img/meme/meme5.jpg";
+
+        textures.meme6 = new Image();
+        textures.meme6.onload = onLoadedFunction;
+        textures.meme6.src = "./img/meme/meme6.png";
+
+        textures.meme7 = new Image();
+        textures.meme7.onload = onLoadedFunction;
+        textures.meme7.src = "./img/meme/meme7.png";
+
+        textures.meme8 = new Image();
+        textures.meme8.onload = onLoadedFunction;
+        textures.meme8.src = "./img/meme/meme8.png";
+
+
+        textures.epilogue = new Image();
+        textures.epilogue.onload = onLoadedFunction;
+        textures.epilogue.src = "./img/stills/post_epilogue.png";
+
+        textures.classPicture = new Image();
+        textures.classPicture.onload = onLoadedFunction;
+        textures.classPicture.src = "./img/stills/class-picture.png";
     } catch(error) {
         console.log(error);
     }
@@ -225,10 +278,10 @@ function handleEndTransition() {
     if(CMODE != DRAWMODE.STORY_FEATURE && CMODE != DRAWMODE.STORY_HOOD_SPOTLIGHT_2 && CMODE != DRAWMODE.STORY_STRATEGY)
         CMODE = NMODE == -10 ? CMODE : NMODE;
     
-    if(NMODE == -10) {
-        if(GAME.messageBox.show)
-            GAME.messageBox.show = false;
-    }
+    // if(NMODE == -10) {
+    //     if(GAME.messageBox.show)
+    //         GAME.messageBox.show = false;
+    // }
 }
 
 function setTrackFrame(max, next = null) {
@@ -575,9 +628,11 @@ function drawFrame() {
         } else if(CMODE == DRAWMODE.BATTLE_VS) {
             // dev
             drawText_dev("dev todo");
-        } else if(BASEMODE >= DRAWMODE.BATTLE_DEFAULT && BASEMODE <= DRAWMODE.BATTLE_FOCUS_FOE) {
-            if(bgMode != BASEMODE)
-                changeBackground("./img/game/elite8_bg.png", "rgba(0,0,0,0.5)");
+        } else if(BASEMODE >= DRAWMODE.BATTLE_DEFAULT && BASEMODE <= DRAWMODE.BATTLE_END) {
+            if(bgMode != DRAWMODE.BATTLE_DEFAULT) {
+                changeBackground("./img/game/elite8_bg.png", "rgba(0,0,0,0.5)", DRAWMODE.BATTLE_DEFAULT);
+                lineIndex = 0;
+            }
             
             if(audio.theme_battle.paused)
                 audio.theme_battle.play();
@@ -597,16 +652,27 @@ function drawFrame() {
             drawPlayerInfo();
 
             // fight message box
-            if(GAME.messageBox.show)
+            if(GAME.inEndSequence || GAME.messageBox.show)
                 drawFightMessageBox(GAME.messageBox.text[0], GAME.messageBox.text[1]);
 
-            // question box
-            // if(GAME.questionBox.show)
-            //     drawQuestionBox();
+            // meme
+            if(CMODE == DRAWMODE.BATTLE_MEME) {
+                ctx_top.restore();
+                ctx_top.fillStyle = "rgba(0,0,0,0.5)";
+                ctx_top.fillRect(0, 0, canvas_top.width, canvas_top.height);
+
+                ctx_top.restore();
+                ctx_top.drawImage(
+                    textures["meme" + GAME.memeIndex],
+                    32,
+                    (canvas_top.height - (448 / textures["meme" + GAME.memeIndex].width * textures["meme" + GAME.memeIndex].height)) / 2,
+                    448,
+                    448 / textures["meme" + GAME.memeIndex].width * textures["meme" + GAME.memeIndex].height);
+            }
 
             // bottom screen
             ctx_bot.restore();
-            if(CMODE == DRAWMODE.BATTLE_DEFAULT || CMODE == DRAWMODE.BATTLE_QUESTION || CMODE == DRAWMODE.BATTLE_FOCUS_FOE || CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER)
+            if(CMODE == DRAWMODE.BATTLE_DEFAULT || CMODE == DRAWMODE.BATTLE_QUESTION || CMODE == DRAWMODE.BATTLE_MEME || CMODE == DRAWMODE.BATTLE_FOCUS_FOE || CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER)
                 ctx_bot.drawImage(textures.battleBGBase, 0, 0, canvas_bot.width, canvas_bot.height);
             else if(CMODE == DRAWMODE.BATTLE_MAIN)
                 ctx_bot.drawImage(textures.battleBGMain, 0, 0, canvas_bot.width, canvas_bot.height);
@@ -614,7 +680,8 @@ function drawFrame() {
                 ctx_bot.drawImage(textures.battleBGFight, 0, 0, canvas_bot.width, canvas_bot.height);
 
                 drawBattleMoves();
-            }
+            } else if(CMODE == DRAWMODE.BATTLE_FIGHT)
+                drawText_anywhere();
 
             if(CMODE == DRAWMODE.BATTLE_QUESTION) {
                 drawQuestionBox();
@@ -622,6 +689,80 @@ function drawFrame() {
             }
 
             drawTime();
+
+            if(GAME.inEndSequence)
+                drawText_anywhere();
+        } else if(CMODE == DRAWMODE.POST_EPILOGUE) {
+            if(bgMode != CMODE) {
+                changeBackground("./img/stills/post_epilogue.png");
+                lineIndex = 0;
+            }
+
+            // figure
+            ctx_top.restore();
+            ctx_top.drawImage(textures.epilogue, 0, 0, canvas_top.width, canvas_top.height);
+
+            // message box
+            drawFightMessageBox(SCRIPT.POST_EPILOGUE[lineIndex][0], SCRIPT.POST_EPILOGUE[lineIndex][1])
+
+            // bottom fill
+            ctx_bot.restore();
+            ctx_bot.fillStyle = "#f0ccac";
+            ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
+
+            // anywhere
+            drawText_anywhere("black");
+        } else if(CMODE == DRAWMODE.POST_FINAL || CMODE == DRAWMODE.POST_FINAL2) {
+            if(bgMode != CMODE) {
+                changeBackground("./img/stills/class-picture.png");
+                lineIndex = 0;
+            }
+
+            // picture
+            ctx_top.restore();
+            ctx_top.fillStyle = "#003a6c";
+            ctx_top.fillRect(0, 0, canvas_top.width, canvas_top.height);
+            ctx_top.drawImage(
+                textures.classPicture,
+                0,
+                (canvas_top.height - textures.classPicture.height * canvas_top.width / textures.classPicture.width) / 2,
+                canvas_top.width,
+                textures.classPicture.height * canvas_top.width / textures.classPicture.width);
+
+            // bottom fill
+            ctx_bot.restore();
+            ctx_bot.fillStyle = "#003a6c";
+            ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
+                
+            if(CMODE == DRAWMODE.POST_FINAL) {
+                // anywhere
+                ctx_top.fillStyle = "white";
+                ctx_top.font = "48px PixelOperatorBold";
+                ctx_top.textAlign = "center";
+                ctx_top.fillText("Press to continue.", canvas_top.width / 2, canvas_top.height - 32);
+                
+                ctx_bot.fillStyle = "white";
+                ctx_bot.font = "28px PixelOperatorBold";
+                for(var i = 0; i < SCRIPT.POST_FINAL.length; i++) {
+                    ctx_bot.fillText(SCRIPT.POST_FINAL[i], 16, 32 + (20 * i));
+                }
+            } else if(CMODE == DRAWMODE.POST_FINAL2) {
+                ctx_bot.restore();
+                ctx_bot.fillStyle = "white";
+                ctx_bot.font = "48px PixelOperatorBold";
+                ctx_bot.textAlign = "center";
+
+                ctx_bot.fillText("Thank you Sir Calvin <3", canvas_bot.width / 2, canvas_bot.height / 4);
+                
+                ctx_bot.font = "28px PixelOperatorBold";
+                ctx_bot.textAlign = "left";
+
+                ctx_bot.fillText("Emman Evangelista", 16, canvas_bot.height / 4 + 96);
+                ctx_bot.fillText("Cherish Magpayo", 16, canvas_bot.height / 4 + 116);
+                ctx_bot.fillText("Joseph Izon", 16, canvas_bot.height / 4 + 136);
+
+                ctx_bot.fillText("1 BS CS-DGDD", 16, canvas_bot.height / 4 + 176);
+            }
         }
     } catch(error) {
         console.log(error);
@@ -681,7 +822,33 @@ function handleClick(e) {
         else
             lineIndex++;
     } else if(CMODE >= DRAWMODE.BATTLE_DEFAULT && CMODE <= DRAWMODE.BATTLE_FOCUS_FOE) {
-        battleClick(x / canvas_bot.offsetWidth * textures.battleBGBase.width, y / canvas_bot.offsetHeight * textures.battleBGBase.height);
+        if(!GAME.inEndSequence)
+            battleClick(x / canvas_bot.offsetWidth * textures.battleBGBase.width, y / canvas_bot.offsetHeight * textures.battleBGBase.height);
+        else {
+            playClickSound();
+            if(lineIndex == 14)
+                CMODE = DRAWMODE.POST_EPILOGUE;
+            else if(!keepTrackOfFrame) {
+                if(lineIndex == 0 || lineIndex == 12) {
+                    transitionToDefault();
+                    setTimeout(transitionToFocusFoe, 0.2 * 1000);
+                } else if(lineIndex == 9) {
+                    transitionToDefault();
+                    setTimeout(transitionToFocusPlayer, 0.2 * 1000);
+                }
+
+                lineIndex++;
+
+                GAME.messageBox.text = SCRIPT.BATTLE_POST[lineIndex];
+            }
+        }
+    } else if(CMODE == DRAWMODE.POST_EPILOGUE) {
+        if(lineIndex == 3)
+            CMODE = DRAWMODE.POST_FINAL;
+        else
+            lineIndex++;
+    } else if(CMODE == DRAWMODE.POST_FINAL) {
+        CMODE = DRAWMODE.POST_FINAL2;
     }
 }
 
@@ -690,7 +857,7 @@ function changeMode(m) {
     CMODE = m;
 }
 
-function changeBackground(url, color) {
+function changeBackground(url, color, mode = CMODE) {
     bgMode = Math.floor(CMODE);
 
     if(url) $("#game-screen-background").css("background-image", "url(\"" + url + "\")");

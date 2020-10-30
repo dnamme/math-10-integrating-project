@@ -14,18 +14,22 @@ var GAME = {
 
     questionIndex: 0,
 
+    memeIndex: 1,
+
     playerTurn: true,
 
-    lastMove: false
+    lastMove: true,
+    inEndSequence: false
 };
 
 // 941 706
 
 function battleClick(x, y) {
     if(CMODE == DRAWMODE.BATTLE_MAIN) {
-        if(x >= 172 && x <= 768 && y >= 216 && y <= 432)
+        if(x >= 172 && x <= 768 && y >= 216 && y <= 432) {
+            playClickSound();
             CMODE = DRAWMODE.BATTLE_FIGHT;
-        else if(x <= 284 && y >= 496) {
+        } else if(x <= 284 && y >= 496) {
             playInvalidClickSound();
             setTrackFrame(2.0 * FPS, -10);
             GAME.messageBox.show = true;
@@ -42,19 +46,24 @@ function battleClick(x, y) {
             GAME.messageBox.text = SCRIPT.BATTLE.notAllowed;
         }
     } else if(CMODE == DRAWMODE.BATTLE_FIGHT) {
-        if(x >= 656 && y >= 516)
+        if(x >= 656 && y >= 516) {
+            playClickSound();
             CMODE = DRAWMODE.BATTLE_MAIN;
-        else if(x <= 468 && y >= 120 && y < 312) {
+        } else if(x <= 468 && y >= 120 && y < 312) {
             // TL
+            playClickSound();
             playerUseMove(GAME.lastMove ? 4 : 0);
         } else if(x <= 468 && y >= 312 && y < 502) {
             // BL
+            playClickSound();
             playerUseMove(GAME.lastMove ? 4 : 1);
         } else if(x >= 472 && y >= 120 && y < 312) {
             // TR
+            playClickSound();
             playerUseMove(GAME.lastMove ? 4 : 2);
         } else if(x >= 472 && y >= 312 && y < 502) {
             // BR
+            playClickSound();
             playerUseMove(GAME.lastMove ? 4 : 3);
         }
     } else if(CMODE == DRAWMODE.BATTLE_QUESTION) {
@@ -75,16 +84,17 @@ function playerUseMove(index) {
 
     CMODE = DRAWMODE.BATTLE_DEFAULT;
 
-    GAME.messageBox.show = true;
-    GAME.messageBox.text = [
-        SCRIPT.BATTLE.moves.player.used + (GAME.lastMove ? "" : (SCRIPT.BATTLE.moves.player.names[index] + "!")),
-        GAME.lastMove ? (SCRIPT.BATTLE.moves.player.names[4] + "!") : ""];
+    if(!GAME.lastMove) {
+        GAME.messageBox.show = true;
+        GAME.messageBox.text = [
+            SCRIPT.BATTLE.moves.player.used + (GAME.lastMove ? "" : (SCRIPT.BATTLE.moves.player.names[index] + "!")),
+            GAME.lastMove ? (SCRIPT.BATTLE.moves.player.names[4] + "!") : ""];
+    }
 
     setTimeout(closeMessageBox, 4.0 * 1000);
 
     setTimeout(function() {
         // animation for 1 sec
-
         transitionToFocusPlayer();
 
         setTimeout(function() {
@@ -118,7 +128,7 @@ function playerUseMove(index) {
                     opponentUseMove();
                 }, 3.0 * 1000);
             } else {
-                // todo when integrating project is used
+                startEndSequence();
             }
 
             if(GAME.opponent.hp <= minhp)
@@ -137,8 +147,8 @@ function playerSelectChoice(index) {
     var dmg = mindmg + Math.floor(Math.random() * maxdmg);
 
     var minhp = 20;
-    if(GAME.opponent.hp - dmg <= minhp) {
-        dmg = GAME.opponent.hp - minhp;
+    if(GAME.player.hp - dmg <= minhp) {
+        dmg = GAME.player.hp - minhp;
         GAME.lastMove = true;
     }
 
@@ -170,7 +180,7 @@ function playerSelectChoice(index) {
 function opponentUseMove() {
     GAME.playerTurn = true;
 
-    var index = Math.floor(Math.random() * 5);
+    var index = Math.floor(Math.random() * SCRIPT.BATTLE.moves.opponent.names.length);
 
     GAME.messageBox.show = true;
     GAME.messageBox.text = [SCRIPT.BATTLE.moves.opponent.used + SCRIPT.BATTLE.moves.opponent.names[index] + "!", ""];
@@ -185,19 +195,23 @@ function opponentUseMove() {
         transitionToDefault();
 
         setTimeout(function() {
-            if(index != 1) {
+            if(index != 1 && index != 2) {
                 CMODE = DRAWMODE.BATTLE_QUESTION;
 
                 GAME.questionIndex = Math.floor(Math.random() * Object.keys(QUESTIONS).length);
             } else {
+                CMODE = DRAWMODE.BATTLE_MEME;
+                GAME.memeIndex = 1 + Math.floor(Math.random() * 8);
                 // damage
                 var mindmg = 25;
                 var maxdmg = 100;
                 var dmg = mindmg + Math.floor(Math.random() * maxdmg);
 
                 var minhp = 20;
-                if(GAME.opponent.hp - dmg <= minhp)
-                    dmg = GAME.opponent.hp - minhp;
+                if(GAME.player.hp - dmg <= minhp) {
+                    dmg = GAME.player.hp - minhp;
+                    GAME.lastMove = true;
+                }
                 
                 if(dmg <= (mindmg + maxdmg) / 3) {
                     audio.damage_weak.play();
@@ -239,4 +253,12 @@ function transitionToDefault() {
 
 function closeMessageBox() {
     GAME.messageBox.show = false;
+}
+
+
+function startEndSequence() {
+    GAME.messageBox.show = true;
+    GAME.messageBox.text = SCRIPT.BATTLE_POST[0];
+
+    GAME.inEndSequence = true;
 }

@@ -45,7 +45,8 @@ const DRAWMODE = {
 
     POST_EPILOGUE: 30,
     POST_CREDITS: 31,
-    POST_FINAL: 32
+    POST_FINAL: 32,
+    POST_FINAL2: 33
 };
 
 const SCRIPT = {
@@ -110,6 +111,7 @@ const SCRIPT = {
                 names: [
                     "Math question",
                     "Meme",
+                    "Meme",
                     "Problem Set",
                     "Oral Exam",
                     "Kahoot Session"
@@ -122,7 +124,50 @@ const SCRIPT = {
         ],
         answerCorrect: "Correct answer!",
         answerIncorrect: "That was the wrong answer."
-    }
+    },
+    BATTLE_POST: [
+        ["This is the end for you,", "Overlord Calvin!"],
+        ["I have one more trick up my", "sleeve."],
+        ["[Calvin uses \"Reveal\"]", ""],
+        ["There is something I need to", "show you"],
+        ["As you can see,", "I am no Overlord,"],
+        ["but I am the master of the", "Sia Region looking for potential"],
+        ["predecessors as there are", "greater forces threatening the"],
+        ["integrity of this region.", ""],
+        ["You have far exceeded my", "expectations, but alas,"],
+        ["everything comes with a price.", "[Coughs]"],
+        ["I knew there was something", "wrong and more with this"],
+        ["hooded figure. We must save him!", ""],
+        ["[Trio uses special move", "\"Appreciation\"]"],
+        ["[Whispers] They truly are", "the destined"],
+        ["\"Protectors of Sia.\"", ""]
+    ],
+    POST_EPILOGUE: [
+        ["In the end, Master Calvin Sia", "was just one of the many trials"],
+        ["Cherish, Emman, and Joseph will", "be facing. It was from there"],
+        ["that he realized that there is", "still hope in bringing back"],
+        ["the light to Region Sia.", ""]
+    ],
+    POST_FINAL: [
+        "The original goal of the game,",
+        "Pokemon, was to have trainers",
+        "defeat their challengers and",
+        "prove victorious. In contrast to",
+        "this, we must realize that",
+        "Pokemon trainers, like students,",
+        "may lose HP when they commit",
+        "mistakes but through those, they",
+        "learn from their challengers,",
+        "similar to how our professors",
+        "teach us even if we commit",
+        "mistakes. However again, we must",
+        "know that this is a two-way street,",
+        "wherein we must also be helping",
+        "each other out, since our",
+        "professors are humans too and",
+        "every once in a while, they too,",
+        "need our help."
+    ]
 };
 
 const QUESTIONS = [

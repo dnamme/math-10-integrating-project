@@ -22,8 +22,8 @@ function firstInteraction() {
 }
 
 function playOpening() {
-    // if(audio.theme_opening.paused)
-    //     audio.theme_opening.play();
+    if(audio.theme_opening.paused)
+        audio.theme_opening.play();
 }
 
 function startGame() {
