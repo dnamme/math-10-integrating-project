@@ -25,9 +25,13 @@
         </div>
 
         <div id="main-screen">
-            <h1>Ma10mon: CS</h1>
-
-            <button onclick="playOpening(); startGame();">Play</button>
+			<video autoplay muted loop id="myVideo">
+			<source src="./img/stills/title-screen-video.mp4" type="video/mp4"> </video>
+		
+			<div id="content">
+				<img src="./img/main-logo.png" alt="Pokemon Bro" class="image">
+				<button class="start-button" onclick="playOpening(); startGame();">Click Here To Play</button> 
+			</div>
         </div>
 
         <div id="game-screen-background"></div>
