@@ -10,7 +10,7 @@ var keepTrackOfFrame = false;
 var isIdle = false;
 var inTransition = false;
 
-var CMODE = DRAWMODE.LOADING.BASE; // mode of the game
+var CMODE = DRAWMODE.BATTLE_MAIN; // mode of the game
 var NMODE = -1;
 var bgMode = -1;
 var lineIndex = 0;
@@ -59,7 +59,11 @@ var audio = {
     click_invalid: null,
 
     story_lightning: null,
-    story_crash: null
+    story_crash: null,
+
+    damage_normal: null,
+    damage_super: null,
+    damage_weak: null
 };
 
 var onLoadedFunction = function() {
@@ -80,6 +84,10 @@ function initializeAudio() {
 
     audio.story_lightning = document.getElementById("story-lightning");
     audio.story_crash = document.getElementById("story-crash");
+
+    audio.damage_normal = document.getElementById("damage-normal");
+    audio.damage_super = document.getElementById("damage-super");
+    audio.damage_weak = document.getElementById("damage-weak");
 }
 
 function loadTextures() {
@@ -593,22 +601,27 @@ function drawFrame() {
                 drawFightMessageBox(GAME.messageBox.text[0], GAME.messageBox.text[1]);
 
             // question box
-            if(GAME.questionBox.show)
-                drawQuestionBox();
+            // if(GAME.questionBox.show)
+            //     drawQuestionBox();
 
             // bottom screen
             ctx_bot.restore();
-            if(CMODE == DRAWMODE.BATTLE_DEFAULT || CMODE == DRAWMODE.BATTLE_FOCUS_FOE || CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER)
+            if(CMODE == DRAWMODE.BATTLE_DEFAULT || CMODE == DRAWMODE.BATTLE_QUESTION || CMODE == DRAWMODE.BATTLE_FOCUS_FOE || CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER)
                 ctx_bot.drawImage(textures.battleBGBase, 0, 0, canvas_bot.width, canvas_bot.height);
-            else if(CMODE == DRAWMODE.BATTLE_MAIN) {
+            else if(CMODE == DRAWMODE.BATTLE_MAIN)
                 ctx_bot.drawImage(textures.battleBGMain, 0, 0, canvas_bot.width, canvas_bot.height);
-
-                drawTime();
-            } else if(CMODE == DRAWMODE.BATTLE_FIGHT) {
+            else if(CMODE == DRAWMODE.BATTLE_FIGHT) {
                 ctx_bot.drawImage(textures.battleBGFight, 0, 0, canvas_bot.width, canvas_bot.height);
 
-                drawTime();
+                drawBattleMoves();
             }
+
+            if(CMODE == DRAWMODE.BATTLE_QUESTION) {
+                drawQuestionBox();
+                drawQuestionChoices();
+            }
+
+            drawTime();
         }
     } catch(error) {
         console.log(error);

@@ -37,8 +37,11 @@ const DRAWMODE = {
     BATTLE_MAIN: 22,
     BATTLE_FIGHT: 23,
     BATTLE_QUESTION: 24,
-    BATTLE_FOCUS_PLAYER: 25,
-    BATTLE_FOCUS_FOE: 26,
+    BATTLE_MEME: 25,
+    BATTLE_FOCUS_PLAYER: 26,
+    BATTLE_FOCUS_FOE: 27,
+
+    BATTLE_END: 29,
 
     POST_EPILOGUE: 30,
     POST_CREDITS: 31,
@@ -92,16 +95,18 @@ const SCRIPT = {
         notAllowed: ["You can't do that here!", ""],
         moves: {
             player: {
-                used: "Group Four used",
+                used: "Group Four used ",
                 names: [
                     "Clarification",
                     "\"Thank you sir\"",
                     "Cringe at joke",
-                    "Laugh at joke"
-                ]
+                    "Laugh at joke",
+                    "Integrating Project"
+                ],
+                lastName: ["Integrating", "Project"]
             },
             opponent: {
-                used: "Sir Calvin used",
+                used: "Sir Calvin used ",
                 names: [
                     "Math question",
                     "Meme",
@@ -114,13 +119,43 @@ const SCRIPT = {
         effectiveness: [
             "It's not very effective...",
             "It's super effective!"
-        ]
+        ],
+        answerCorrect: "Correct answer!",
+        answerIncorrect: "That was the wrong answer."
     }
 };
 
-const QUESTIONS = {
-    //
-};
+const QUESTIONS = [
+    {
+        question: [
+            "Which of the following is",
+            "not a Mathematical concept?"
+        ],
+        choices: [
+            "Golden Ratio",
+            "Golden Square",
+            "Golden Rectangle",
+            "Golden Angle"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "Leonardo Bonnaci is an Italian",
+            "mathematician known for",
+            "popularizing the Hindu-Arabic",
+            "numeral system and the",
+            "Fibonacci Sequence.",
+            "But what does Fibonnaci mean?"
+        ],
+        choices: [
+            "Leonardo the Traveler from Pisa",
+            "Child of Bonacci",
+            "Leonardo Bigollo Pisano",
+            "Son of Bonacci"
+        ],
+        answer: 3
+    }
+];
 
 
 const FONT_ALPHANUM_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -164,6 +199,22 @@ const POSITIONS = {
             marginLR: 16,
             relPosT1: -8,
             relPosT2: 24
+        }
+    },
+    questionBox: {
+        marginTB: 94,
+        text: {
+            relPosL: 16,
+            relPosT: [48, 72, 96, 120, 144, 168]
+        }
+    },
+    questionChoices: {
+        marginLR: 32,
+        h: 48,
+        posT: [72, 134, 196, 258],
+        text: {
+            relPosL: 16,
+            relPosT: 36
         }
     },
     battleFoeBox: {
@@ -260,6 +311,14 @@ const POSITIONS = {
     time: {
         posL: 24,
         posT: 20
+    },
+    battleChoices: {
+        posL_C: 127,
+        posR_C: 385,
+        posT_Top_s: 128, // 128
+        posT_Top: [114, 142],
+        posT_Bot_s: 230, // 230
+        posT_Bot: [216, 244]
     }
 };
 

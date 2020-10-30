@@ -12,10 +12,7 @@ var GAME = {
         text: ["", ""]
     },
 
-    questionBox: {
-        show: false,
-        text: [""]
-    },
+    questionIndex: 0,
 
     playerTurn: true,
 
@@ -60,6 +57,16 @@ function battleClick(x, y) {
             // BR
             playerUseMove(GAME.lastMove ? 4 : 3);
         }
+    } else if(CMODE == DRAWMODE.BATTLE_QUESTION) {
+        if(x >= POSITIONS.questionChoices.marginLR / 512 * 941 && x <= (canvas_bot.width - POSITIONS.questionChoices.marginLR) / 512 * 941) {
+            // console.log(y);
+            for(var i = 0; i < QUESTIONS[GAME.questionIndex].choices.length; i++) {
+                if(y >= POSITIONS.questionChoices.posT[i] / 384 * 706 && y <= (POSITIONS.questionChoices.posT[i] + POSITIONS.questionChoices.h) / 384 * 706) {
+                    playerSelectChoice(i);
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -68,13 +75,96 @@ function playerUseMove(index) {
 
     CMODE = DRAWMODE.BATTLE_DEFAULT;
 
-    setTrackFrame(2.0 * FPS, -10);
     GAME.messageBox.show = true;
-    GAME.messageBox.text = [SCRIPT.BATTLE.moves.player.used, SCRIPT.BATTLE.moves.player.names[index] + "!"];
+    GAME.messageBox.text = [
+        SCRIPT.BATTLE.moves.player.used + (GAME.lastMove ? "" : (SCRIPT.BATTLE.moves.player.names[index] + "!")),
+        GAME.lastMove ? (SCRIPT.BATTLE.moves.player.names[4] + "!") : ""];
+
+    setTimeout(closeMessageBox, 4.0 * 1000);
 
     setTimeout(function() {
-        opponentUseMove();
-    }, 3.0 * 1000);
+        // animation for 1 sec
+
+        // transitionToFocusFoe();
+
+        setTimeout(function() {
+            // damage
+            var mindmg = 100;
+            var maxdmg = 300;
+            var dmg = mindmg + Math.floor(Math.random() * maxdmg);
+
+            var minhp = 20;
+            if(GAME.opponent.hp - dmg <= minhp)
+                dmg = GAME.opponent.hp - minhp;
+            
+            if(!GAME.lastMove) {
+                if(dmg <= (mindmg + maxdmg) / 3) {
+                    audio.damage_weak.play();
+                    GAME.messageBox.text = [SCRIPT.BATTLE.effectiveness[0], ""];
+                } else if(dmg >= (mindmg + maxdmg) / 3 * 2) {
+                    audio.damage_normal.play();
+                    GAME.messageBox.text = [SCRIPT.BATTLE.effectiveness[1], ""];
+                } else {
+                    audio.damage_super.play();
+                    closeMessageBox();
+                }
+                
+                GAME.opponent.hp -= dmg;
+
+                // transitionToDefault();
+
+
+                setTimeout(function() {
+                    opponentUseMove();
+                }, 3.0 * 1000);
+            } else {
+                // todo when integrating project is used
+            }
+
+            if(GAME.opponent.hp <= minhp)
+                GAME.lastMove = true;
+        }, 1.0 * 1000);
+    }, 1.0 * 1000);
+}
+
+function playerSelectChoice(index) {
+    GAME.playerTurn = true;
+
+    CMODE = DRAWMODE.BATTLE_DEFAULT;
+
+    var mindmg = index == QUESTIONS[GAME.questionIndex].answer ? 10 : 25;
+    var maxdmg = index == QUESTIONS[GAME.questionIndex].answer ? 50 : 100;
+    var dmg = mindmg + Math.floor(Math.random() * maxdmg);
+
+    var minhp = 20;
+    if(GAME.opponent.hp - dmg <= minhp) {
+        dmg = GAME.opponent.hp - minhp;
+        GAME.lastMove = true;
+    }
+
+    setTimeout(function() {
+        GAME.messageBox.show = true;
+        GAME.messageBox.text = [index == QUESTIONS[GAME.questionIndex].answer ? SCRIPT.BATTLE.answerCorrect : SCRIPT.BATTLE.answerIncorrect, index == QUESTIONS[GAME.questionIndex].answer ? SCRIPT.BATTLE.effectiveness[0] : ""];
+
+        setTimeout(closeMessageBox, 2.0 * 1000);
+        
+        if(dmg <= (mindmg + maxdmg) / 3) {
+            audio.damage_weak.play();
+            if(index != QUESTIONS[GAME.questionIndex].answer)
+                GAME.messageBox.text[1] = SCRIPT.BATTLE.effectiveness[0];
+        } else if(dmg >= (mindmg + maxdmg) / 3 * 2) {
+            audio.damage_normal.play();
+            if(index != QUESTIONS[GAME.questionIndex].answer)
+                GAME.messageBox.text[1] = SCRIPT.BATTLE.effectiveness[1];
+        } else
+            audio.damage_super.play();
+
+        GAME.player.hp -= dmg;
+
+        setTimeout(function() {
+            CMODE = DRAWMODE.BATTLE_MAIN;
+        }, 3.0 * 1000);
+    }, 1.0 * 1000);
 }
 
 function opponentUseMove() {
@@ -82,13 +172,50 @@ function opponentUseMove() {
 
     var index = Math.floor(Math.random() * 5);
 
-    setTrackFrame(2.0 * FPS, -10);
     GAME.messageBox.show = true;
-    GAME.messageBox.text = [SCRIPT.BATTLE.moves.opponent.used, SCRIPT.BATTLE.moves.opponent.names[index] + "!"];
+    GAME.messageBox.text = [SCRIPT.BATTLE.moves.opponent.used + SCRIPT.BATTLE.moves.opponent.names[index] + "!", ""];
+
+    setTimeout(closeMessageBox, 2.0 * 1000);
 
     setTimeout(function() {
-        CMODE = DRAWMODE.BATTLE_MAIN;
-    }, 3.0 * 1000);
+        // animation for 1 sec
+
+        // transitionToFocusFoe();
+
+        setTimeout(function() {
+            if(index != 1) {
+                CMODE = DRAWMODE.BATTLE_QUESTION;
+
+                GAME.questionIndex = Math.floor(Math.random() * Object.keys(QUESTIONS).length);
+            } else {
+                // damage
+                var mindmg = 25;
+                var maxdmg = 100;
+                var dmg = mindmg + Math.floor(Math.random() * maxdmg);
+
+                var minhp = 20;
+                if(GAME.opponent.hp - dmg <= minhp)
+                    dmg = GAME.opponent.hp - minhp;
+                
+                if(dmg <= (mindmg + maxdmg) / 3) {
+                    audio.damage_weak.play();
+                    GAME.messageBox.text = [SCRIPT.BATTLE.effectiveness[0], ""];
+                } else if(dmg >= (mindmg + maxdmg) / 3 * 2) {
+                    audio.damage_normal.play();
+                    GAME.messageBox.text = [SCRIPT.BATTLE.effectiveness[1], ""];
+                } else {
+                    audio.damage_super.play();
+                    closeMessageBox();
+                }
+
+                GAME.player.hp -= dmg;
+
+                setTimeout(function() {
+                    CMODE = DRAWMODE.BATTLE_MAIN;
+                }, 3.0 * 1000);
+            }
+        }, 1.0 * 1000);
+    }, 1.0 * 1000);
 }
 
 function validateHP() {}
@@ -104,6 +231,10 @@ function transitionToFocusPlayer() {
 }
 
 function transitionToDefault() {
-    setTrackFrame();
+    setTrackFrame(0.2 * FPS, DRAWMODE.BATTLE_DEFAULT);
     inTransition = true;
+}
+
+function closeMessageBox() {
+    GAME.messageBox.show = false;
 }

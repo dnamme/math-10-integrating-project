@@ -17,35 +17,77 @@ function drawOpponentBase() {
             CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.posT : POSITIONS.battleFoe.posT,
             textures.battle_foe.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : POSITIONS.battleFoe.scale),
             textures.battle_foe.height * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : POSITIONS.battleFoe.scale));
+        // } else {
+        //     ctx_top.drawImage(
+        //         textures.battleBase,
+        //         canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale) - POSITIONS.battleFoeBase.focus.foe.posR,
+        //         POSITIONS.battleFoeBase.focus.foe.posT,
+        //         textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale,
+        //         textures.battleBase.height * POSITIONS.battleFoeBase.focus.foe.scale);
+        //     // ctx_top.drawImage();
+        // }
     } else {
-        ctx_top.drawImage(
-            textures.battleBase,
-            transitionValue(
-                canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.scale) - POSITIONS.battleFoeBase.posR,
-                canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale) - POSITIONS.battleFoeBase.focus.foe.posR),
-            transitionValue(
-                POSITIONS.battleFoeBase.posT,
-                POSITIONS.battleFoeBase.focus.foe.posT),
-            transitionValue(
-                textures.battleBase.width * POSITIONS.battleFoeBase.scale,
-                textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale),
-            transitionValue(
-                textures.battleBase.height * POSITIONS.battleFoeBase.scale,
-                textures.battleBase.height * POSITIONS.battleFoeBase.focus.foe.scale));
-        ctx_top.drawImage(
-            textures.battle_foe,
-            transitionValue(
-                canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.scale) - POSITIONS.battleFoe.posR,
-                canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale) - POSITIONS.battleFoe.focus.foe.posR),
-            transitionValue(
-                POSITIONS.battleFoe.posT,
-                POSITIONS.battleFoe.focus.foe.posT),
-            transitionValue(
-                textures.battle_foe.width * POSITIONS.battleFoe.scale,
-                textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale),
-            transitionValue(
-                textures.battle_foe.height * POSITIONS.battleFoe.scale,
-                textures.battle_foe.height * POSITIONS.battleFoe.focus.foe.scale));
+        if(CMODE == DRAWMODE.BATTLE_DEFAULT) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.scale) - POSITIONS.battleFoeBase.posR,
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale) - POSITIONS.battleFoeBase.focus.foe.posR),
+                transitionValue(
+                    POSITIONS.battleFoeBase.posT,
+                    POSITIONS.battleFoeBase.focus.foe.posT),
+                transitionValue(
+                    textures.battleBase.width * POSITIONS.battleFoeBase.scale,
+                    textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale),
+                transitionValue(
+                    textures.battleBase.height * POSITIONS.battleFoeBase.scale,
+                    textures.battleBase.height * POSITIONS.battleFoeBase.focus.foe.scale));
+            ctx_top.drawImage(
+                textures.battle_foe,
+                transitionValue(
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.scale) - POSITIONS.battleFoe.posR,
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale) - POSITIONS.battleFoe.focus.foe.posR),
+                transitionValue(
+                    POSITIONS.battleFoe.posT,
+                    POSITIONS.battleFoe.focus.foe.posT),
+                transitionValue(
+                    textures.battle_foe.width * POSITIONS.battleFoe.scale,
+                    textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale),
+                transitionValue(
+                    textures.battle_foe.height * POSITIONS.battleFoe.scale,
+                    textures.battle_foe.height * POSITIONS.battleFoe.focus.foe.scale));
+        } else if(CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER) {
+            //
+        } else if(CMODE == DRAWMODE.BATTLE_FOCUS_FOE) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale) - POSITIONS.battleFoeBase.focus.foe.posR,
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.scale) - POSITIONS.battleFoeBase.posR),
+                transitionValue(
+                    POSITIONS.battleFoeBase.focus.foe.posT,
+                    POSITIONS.battleFoeBase.posT),
+                transitionValue(
+                    textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale,
+                    textures.battleBase.width * POSITIONS.battleFoeBase.scale),
+                transitionValue(
+                    textures.battleBase.height * POSITIONS.battleFoeBase.focus.foe.scale,
+                    textures.battleBase.height * POSITIONS.battleFoeBase.scale));
+            ctx_top.drawImage(
+                textures.battle_foe,
+                transitionValue(
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale) - POSITIONS.battleFoe.focus.foe.posR,
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.scale) - POSITIONS.battleFoe.posR),
+                transitionValue(
+                    POSITIONS.battleFoe.focus.foe.posT,
+                    POSITIONS.battleFoe.posT),
+                transitionValue(
+                    textures.battle_foe.width * POSITIONS.battleFoe.focus.foe.scale,
+                    textures.battle_foe.width * POSITIONS.battleFoe.scale),
+                transitionValue(
+                    textures.battle_foe.height * POSITIONS.battleFoe.focus.foe.scale,
+                    textures.battle_foe.height * POSITIONS.battleFoe.scale));
+        }
     }
 }
 
@@ -306,7 +348,37 @@ function drawFightMessageBox(text1, text2 = "", textAlign = "left", textColor = 
         canvas_top.height - POSITIONS.fightMessageBox.posB_Top + (POSITIONS.fightMessageBox.height / 2) + POSITIONS.fightMessageBox.text.relPosT2);
 }
 
-function drawQuestionBox() {}
+function drawQuestionBox() {
+    ctx_top.restore();
+    ctx_top.fillStyle = "rgba(255,255,255,0.7)";
+    ctx_top.fillRect(0, POSITIONS.questionBox.marginTB, canvas_top.width, canvas_top.height - (POSITIONS.questionBox.marginTB * 2));
+
+    ctx_top.restore();
+    ctx_top.fillStyle = "black";
+    ctx_top.font = "32px PixelOperatorBold";
+    for(var i = 0; i < QUESTIONS[GAME.questionIndex].question.length; i++) {
+        ctx_top.fillText(
+            QUESTIONS[GAME.questionIndex].question[i],
+            POSITIONS.questionBox.text.relPosL,
+            POSITIONS.questionBox.marginTB + POSITIONS.questionBox.text.relPosT[i]);
+    }
+}
+
+function drawQuestionChoices() {
+    ctx_bot.restore();
+
+    for(var i = 0; i < QUESTIONS[GAME.questionIndex].choices.length; i++) {
+        ctx_bot.fillStyle = "rgba(255,255,255,0.6)";
+        ctx_bot.fillRect(POSITIONS.questionChoices.marginLR, POSITIONS.questionChoices.posT[i], canvas_bot.width - (POSITIONS.questionChoices.marginLR * 2), POSITIONS.questionChoices.h);
+
+        ctx_bot.fillStyle = "black";
+        ctx_bot.font = "28px PixelOperatorBold";
+        ctx_bot.fillText(
+            QUESTIONS[GAME.questionIndex].choices[i],
+            POSITIONS.questionChoices.marginLR + POSITIONS.questionChoices.text.relPosL,
+            POSITIONS.questionChoices.posT[i] + POSITIONS.questionChoices.text.relPosT);
+    }
+}
 
 
 function drawTime() {
@@ -323,4 +395,32 @@ function drawTime() {
     ctx_bot.font = "16px Pixelmix";
     ctx_bot.textAlign = "left";
     ctx_bot.fillText(H + " : " + M, POSITIONS.time.posL, POSITIONS.time.posT);
+}
+
+
+
+function drawBattleMoves() {
+    ctx_bot.restore();
+    ctx_bot.fillStyle = "white";
+    ctx_bot.font = "32px PixelOperatorBold";
+    ctx_bot.textAlign = "center";
+
+    if(!GAME.lastMove) {
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.names[0], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Top_s);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.names[1], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Bot_s);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.names[2], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Top_s);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.names[3], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Bot_s);
+    } else {
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[0], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Top[0]);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[1], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Top[1]);
+
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[0], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Bot[0]);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[1], POSITIONS.battleChoices.posL_C, POSITIONS.battleChoices.posT_Bot[1]);
+
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[0], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Top[0]);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[1], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Top[1]);
+
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[0], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Bot[0]);
+        ctx_bot.fillText(SCRIPT.BATTLE.moves.player.lastName[1], POSITIONS.battleChoices.posR_C, POSITIONS.battleChoices.posT_Bot[1]);
+    }
 }
