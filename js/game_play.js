@@ -85,7 +85,7 @@ function playerUseMove(index) {
     setTimeout(function() {
         // animation for 1 sec
 
-        // transitionToFocusFoe();
+        // transitionToFocusPlayer();
 
         setTimeout(function() {
             // damage
@@ -163,7 +163,7 @@ function playerSelectChoice(index) {
 
         setTimeout(function() {
             CMODE = DRAWMODE.BATTLE_MAIN;
-        }, 3.0 * 1000);
+        }, 4.0 * 1000);
     }, 1.0 * 1000);
 }
 

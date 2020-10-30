@@ -154,6 +154,269 @@ const QUESTIONS = [
             "Son of Bonacci"
         ],
         answer: 3
+    }, {
+        question: [
+            "Mathematics has evolved to be",
+            "the study of numbers, shapes,",
+            "motion, change, space and of the",
+            "mathematical tools that are used",
+            "in this study."
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 0
+    }, {
+        question: [
+            "The book \"Euclid's Elements\"",
+            "was first to become popular",
+            "than the Bible."
+    ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "Which of the following gives the",
+            "closest approximation to the",
+            "value of the Golden Ratio?"
+        ],
+        choices: [
+            "1.6180",
+            "1.6530",
+            "2.618",
+            "3.14"
+        ],
+        answer: 0
+    }, {
+        question: [
+            "Mathematics as a Language is",
+            "powerful because of the ability",
+            "to be able to write somethings",
+            "down with sureness."
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    },/* {
+        question: [
+            "Let p and q be the propositions:",
+            "\"p: Algebra is a zebra.\" and",
+            "\"q:  Graphs are giraffes.\".",
+            "Then - p ^ q is:"
+        ],
+        choices: [
+            "Algebra is not a zebra and graphs are not giraffes.",
+            "Algebra is a zebra and graphs are not giraffes.",
+            "Algebra is not a zebra and graphs are giraffes.",
+            "Graphs are giraffes and algebra is a zebra."
+        ],
+        answer: 2
+    }, */{
+        question: [
+            "How many elements are in the set",
+            "{{7,-77,7},{-77,7},{7}}?"
+        ],
+        choices: [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "Is the set {7,7,7,7,7,7,7,7,7,7,",
+            "777,7,7,7,7,7,77,7,7,7,7,7,77,7,",
+            "7,7,7,7,7,7,7,77} a singleton?"
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "Zero (0) is a _____."
+        ],
+        choices: [
+            "Positive Number",
+            "Negative Number",
+            "All of the Above",
+            "None of the Above"
+        ],
+        answer: 3
+    }, {
+        question: [
+            "An even number plus an odd number",
+            "is still even."
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    },/* {
+        question: 
+        [
+            "What happens when I subtract an",
+            "odd number with an odd number?"
+        ],
+        choices: [
+            "The difference is an even number.",
+            "The difference is an odd number.",
+            "The difference isn't even a number.",
+            "The difference most probably doesn't exist."
+        ],
+        answer: 0
+    }, */{
+        question: [
+            "What should I multiply an odd",
+            "number to to get a product that",
+            "is odd?"
+        ],
+        choices: [
+            "Multiply it by an even number.",
+            "Multiply it by an odd number.",
+            "Multiply it by zero.",
+            "Go study Module 3 again."
+        ],
+        answer: 1
+    }, {
+        question: [
+            "If the hours spent for studying",
+            "Math 10 modules is positively and",
+            "strongly correlated to a higher",
+            "grade, then more hours spent",
+            "studying produces higher grades."
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "It is possible to have a negative",
+            "range."
+        ],
+        choices: [
+            "True",
+            "False "
+        ],
+        answer: 1
+    }, {
+        question: [
+            "What is the median of the values",
+            "1, 2, 5, 1, 3, 5, 1, 2?"
+        ],
+        choices: [
+            "1",
+            "3.5",
+            "2",
+            "2.5"
+        ],
+        answer: 2
+    }, {
+        question: [
+            "In a sample, they give the",
+            "following values: 12,890, 19,032,",
+            "12,093, 15,051, and 14,560",
+            "and you were asked to solve the",
+            "standard deviation. What function",
+            "will you use in excel?"
+        ],
+        choices: [
+            "=STDEV.P",
+            "=STDEV.S",
+            "=STANDARDIZE",
+            "=STAND.DEV"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "Approximately how many percent",
+            "of the area under a normal curve",
+            "(above the x-axis) falls within",
+            "three standard deviations to",
+            "the right from the mean."
+        ],
+        choices: [
+            "99.7%",
+            "95%",
+            "72%",
+            "49.85%"
+        ],
+        answer: 3
+    }, {
+        question: [
+            "A graph is a set of modules",
+            "(or main points) linked by",
+            "edges (or branches)."
+        ],
+        choices: [
+            "True",
+            "False"
+        ],
+        answer: 1
+    }, {
+        question: [
+            "The Seven Bridges of Konigsberg",
+            "is an example of what a Eulerian",
+            "Graph is not. "
+        ],
+        choices: [
+            "True ",
+            "False"
+        ],
+        answer: 0
+    }, {
+        question: [
+            "Dijkstra's Algorithm was",
+            "published by Edsger W. Dijkstra",
+            "in 1959 wherein it also has",
+            "its real life applications",
+            "today. What companies potentially",
+            "use this algorithm?"
+        ],
+        choices: [
+            "Waze",
+            "Quaker Oats",
+            "Sunyang",
+            "Daizo"
+        ],
+        answer: 0
+    }, {
+        question: [
+            "If SkyCable wanted to rewire their",
+            "lines to multiple neighborhoods,",
+            "which Algorithm would be best",
+            "to use?"
+        ],
+        choices: [
+            "Prim's Algorithm",
+            "Minimum Spiderman Tree (MST)",
+            "Dijkstra's Algorithm",
+            "Dante's Inferno"
+        ],
+        answer: 0
+    }, {
+        question: [
+            "What is a tree in",
+            "Mathematics Module 5?"
+        ],
+        choices: [
+            "Perennial plant",
+            "The reason we can breathe in life ",
+            "Connected graph without cycles",
+            "Part of the cycle of life"
+        ],
+        answer: 2
     }
 ];
 
