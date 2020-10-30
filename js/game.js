@@ -21,9 +21,13 @@ var textures = {
     introBase: null,
     overlayMessageBox: null,
 
+    thunderTop: null,
+    thunderBot: null,
     hoodedFigureTP: null,
     featureFigure: null,
     strategyScene: null,
+    crashScene: null,
+    appearScene: null,
 
     hoodedFigure: null,
 
@@ -106,6 +110,14 @@ function loadTextures() {
         textures.overlayMessageBox.src = "./img/game/overlay_message.png";
 
 
+        textures.thunderTop = new Image();
+        textures.thunderTop.onload = onLoadedFunction;
+        textures.thunderTop.src = "./img/stills/thunder 2.png";
+
+        textures.thunderBot = new Image();
+        textures.thunderBot.onload = onLoadedFunction;
+        textures.thunderBot.src = "./img/stills/thunder 1.png";
+
         textures.hoodedFigureTP = new Image();
         textures.hoodedFigureTP.onload = onLoadedFunction;
         textures.hoodedFigureTP.src = "./img/stills/story_hood_tp.png";
@@ -117,6 +129,14 @@ function loadTextures() {
         textures.strategyScene = new Image();
         textures.strategyScene.onload = onLoadedFunction;
         textures.strategyScene.src = "./img/stills/story_strategy.png";
+
+        textures.crashScene = new Image();
+        textures.crashScene.onload = onLoadedFunction;
+        textures.crashScene.src = "./img/stills/window.png";
+
+        textures.appearScene = new Image();
+        textures.appearScene.onload = onLoadedFunction;
+        textures.appearScene.src = "./img/stills/story_appear_darker.png";
 
 
         textures.hoodedFigure = new Image();
@@ -275,7 +295,7 @@ function drawFrame() {
             }
 
             if(!keepTrackOfFrame && CMODE == DRAWMODE.LOADING.IDLE_BLACK)
-                setTrackFrame(2.0 * FPS, DRAWMODE.STORY_LIGHTNING.IDLE);
+                setTrackFrame(2.0 * FPS, DRAWMODE.STORY_LIGHTNING.BOLT);
         } else if(BASEMODE == DRAWMODE.STORY_LIGHTNING.BASE) {
             if(bgMode != BASEMODE) {
                 changeBackground(null, "black");
@@ -287,6 +307,18 @@ function drawFrame() {
 
                 // play sound
                 audio.story_lightning.play();
+            }
+
+            if(CMODE == DRAWMODE.STORY_LIGHTNING.BOLT) {
+                // CMODE = DRAWMODE.STORY_LIGHTNING.IDLE;
+                if(!keepTrackOfFrame)
+                    setTrackFrame(FPS / 10, DRAWMODE.STORY_LIGHTNING.IDLE);
+
+                ctx_top.restore();
+                ctx_top.drawImage(textures.thunderTop, 0, 0, canvas_top.width, canvas_top.height);
+
+                ctx_bot.restore();
+                ctx_bot.drawImage(textures.thunderBot, 0, 0, canvas_bot.width, canvas_bot.height);
             }
 
             // fight message box
@@ -494,27 +526,38 @@ function drawFrame() {
             }
         } else if(CMODE == DRAWMODE.STORY_CRASH) {
             if(bgMode != CMODE) {
-                changeBackground(null, "black");
+                changeBackground("./img/stills/window.png", "rgba(0,0,0,0.5)");
 
                 audio.story_crash.play();
             }
             
-            // figure
-            drawText_dev("insert crash");
+            // still
+            ctx_top.drawImage(textures.crashScene, 0, 0, canvas_top.width, canvas_top.height);
 
             // overlay message
-            drawFightMessageBox("text1", "text2", "center", "white", "rgba(255,255,255,0.2)")
+            drawFightMessageBox(SCRIPT.STORY_CRASH[0], SCRIPT.STORY_CRASH[1], "center", "white", "rgba(0,0,0,0.5)");
+
+            // bottom fill
+            ctx_bot.restore();
+            ctx_bot.fillStyle = "#f8efdd";
+            ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
 
             // press anywhere
-            drawText_anywhere();
+            drawText_anywhere("black");
         } else if(CMODE == DRAWMODE.STORY_APPEAR) {
             if(bgMode != CMODE) {
-                changeBackground(null, "black");
+                changeBackground("./img/stills/story_appear.png", "rgba(0,0,0,0.5)");
                 lineIndex = 0;
             }
 
             // figure
-            drawText_dev("insert appear");
+            ctx_top.restore();
+            ctx_top.drawImage(textures.appearScene, 0, 0, canvas_top.width, canvas_top.height);
+            
+            // bot
+            ctx_bot.restore();
+            ctx_bot.fillStyle = "#241a30";
+            ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
 
             // press anywhere
             drawText_anywhere();

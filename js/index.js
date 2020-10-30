@@ -10,6 +10,15 @@ function firstInteraction() {
     $("#interact-screen").fadeOut(500);
 
     playOpening();
+
+    var vid = document.getElementById("myVideo");
+    vid.playbackRate = 0.75;
+    vid.currentTime = 0;
+    vid.play();
+    vid.ontimeupdate = function() {
+        if(vid.currentTime >= 4.8)
+            vid.currentTime = 0;
+    };
 }
 
 function playOpening() {
@@ -19,6 +28,8 @@ function playOpening() {
 
 function startGame() {
     $("#main-screen").fadeOut(250);
+
+    document.getElementById("myVideo").pause();
 
     initializeAudio();
     loadTextures();

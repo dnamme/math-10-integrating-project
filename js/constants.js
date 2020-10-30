@@ -80,6 +80,9 @@ const SCRIPT = {
         ["\"We are humanity's last hope,", "what is he saying?\""],
         ["\"Wait, where did he g-\"", ""]
     ],
+    STORY_CRASH: [
+        "You hear something break.", ""
+    ],
     STORY_APPEAR: [
         ["MWAHAHAHAHAHAA!!!", ""],
         ["\"It is I, Overlord and", "Supreme Leader Calvin!\""],

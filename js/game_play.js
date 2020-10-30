@@ -91,6 +91,8 @@ function opponentUseMove() {
     }, 3.0 * 1000);
 }
 
+function validateHP() {}
+
 function transitionToFocusFoe() {
     setTrackFrame(0.2 * FPS, DRAWMODE.BATTLE_FOCUS_FOE);
     inTransition = true;
