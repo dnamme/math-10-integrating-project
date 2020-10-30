@@ -46,6 +46,7 @@ function stopGame() {
 
 
 function transitionValue(start, end, frame = frameNum, maxFrames = maxFrameNum) {
+    if(start == end) return start;
     return start + (frame / maxFrames) * (end - start);
 }
 
@@ -61,4 +62,13 @@ function playInvalidClickSound() {
         audio.click_invalid.currentTime = 0;
     else
         audio.click_invalid.play();
+}
+
+function offsetGen(val, min, max, step) {
+    if(val <= min)
+        return min;
+    else if(val >= max)
+        return max;
+    
+    return val += step * (Math.floor(Math.random() * 3) - 1);
 }

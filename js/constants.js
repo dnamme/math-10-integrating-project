@@ -513,6 +513,11 @@ const POSITIONS = {
                 posR: 32,
                 posT: 128,
                 scale: 0.75
+            },
+            player: {
+                posR: -128,
+                posT: 48,
+                scale: 0.5
             }
         }
     },
@@ -525,6 +530,11 @@ const POSITIONS = {
                 posR: 96,
                 posT: -16,
                 scale: 1 / 3 * 2 / 2 * 3
+            },
+            player: {
+                posR: -84,
+                posT: -48,
+                scale: 1 / 3 * 2
             }
         }
     },
@@ -564,12 +574,32 @@ const POSITIONS = {
     battlePlayerBase: {
         posL: -80,
         posB: 140,
-        scale: 1.0
+        scale: 1.0,
+        focus: {
+            player: {
+                posL: -16,
+                posB: 140
+            },
+            foe: {
+                posL: -384,
+                posB: 100
+            }
+        }
     },
     battlePlayer: {
         posL: 0,
         posB: 0,
-        scale: 1 / 3 * 2
+        scale: 1 / 3 * 2,
+        focus: {
+            player: {
+                posL: 64,
+                posB: 0
+            },
+            foe: {
+                posL: -304,
+                posB: -40
+            }
+        }
     },
     time: {
         posL: 24,

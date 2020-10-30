@@ -85,7 +85,7 @@ function playerUseMove(index) {
     setTimeout(function() {
         // animation for 1 sec
 
-        // transitionToFocusPlayer();
+        transitionToFocusPlayer();
 
         setTimeout(function() {
             // damage
@@ -111,7 +111,7 @@ function playerUseMove(index) {
                 
                 GAME.opponent.hp -= dmg;
 
-                // transitionToDefault();
+                transitionToDefault();
 
 
                 setTimeout(function() {
@@ -177,10 +177,12 @@ function opponentUseMove() {
 
     setTimeout(closeMessageBox, 2.0 * 1000);
 
+    transitionToFocusFoe();
+
     setTimeout(function() {
         // animation for 1 sec
 
-        // transitionToFocusFoe();
+        transitionToDefault();
 
         setTimeout(function() {
             if(index != 1) {

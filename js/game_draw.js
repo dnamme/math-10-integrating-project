@@ -7,27 +7,18 @@ function drawOpponentBase() {
     if(!inTransition) {
         ctx_top.drawImage(
             textures.battleBase,
-            canvas_top.width - (textures.battleBase.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : POSITIONS.battleFoeBase.scale)) - (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.posR : POSITIONS.battleFoeBase.posR),
-            CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.posT : POSITIONS.battleFoeBase.posT,
-            textures.battleBase.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : POSITIONS.battleFoeBase.scale),
-            textures.battleBase.height * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : POSITIONS.battleFoeBase.scale));
+            canvas_top.width - (textures.battleBase.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoeBase.focus.player.scale : POSITIONS.battleFoeBase.scale))) - (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.posR : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoeBase.focus.player.posR : POSITIONS.battleFoeBase.posR)),
+            CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.posT : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.player.posT : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoeBase.focus.player.posT : POSITIONS.battleFoeBase.posT)),
+            textures.battleBase.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.player.scale : POSITIONS.battleFoeBase.scale)),
+            textures.battleBase.height * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoeBase.focus.player.scale : POSITIONS.battleFoeBase.scale)));
         ctx_top.drawImage(
             textures.battle_foe,
-            canvas_top.width - (textures.battle_foe.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : POSITIONS.battleFoe.scale)) - (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.posR : POSITIONS.battleFoe.posR),
-            CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.posT : POSITIONS.battleFoe.posT,
-            textures.battle_foe.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : POSITIONS.battleFoe.scale),
-            textures.battle_foe.height * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : POSITIONS.battleFoe.scale));
-        // } else {
-        //     ctx_top.drawImage(
-        //         textures.battleBase,
-        //         canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale) - POSITIONS.battleFoeBase.focus.foe.posR,
-        //         POSITIONS.battleFoeBase.focus.foe.posT,
-        //         textures.battleBase.width * POSITIONS.battleFoeBase.focus.foe.scale,
-        //         textures.battleBase.height * POSITIONS.battleFoeBase.focus.foe.scale);
-        //     // ctx_top.drawImage();
-        // }
+            canvas_top.width - (textures.battle_foe.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoe.focus.player.scale : POSITIONS.battleFoe.scale))) - (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.posR : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoe.focus.player.posR : POSITIONS.battleFoe.posR)),
+            CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.posT : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.player.posT : (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battleFoe.focus.player.posT : POSITIONS.battleFoe.posT)),
+            textures.battle_foe.width * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.player.scale : POSITIONS.battleFoe.scale)),
+            textures.battle_foe.height * (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.foe.scale : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battleFoe.focus.player.scale : POSITIONS.battleFoe.scale)));
     } else {
-        if(CMODE == DRAWMODE.BATTLE_DEFAULT) {
+        if(CMODE == DRAWMODE.BATTLE_DEFAULT && NMODE == DRAWMODE.BATTLE_FOCUS_FOE) {
             ctx_top.drawImage(
                 textures.battleBase,
                 transitionValue(
@@ -56,8 +47,64 @@ function drawOpponentBase() {
                 transitionValue(
                     textures.battle_foe.height * POSITIONS.battleFoe.scale,
                     textures.battle_foe.height * POSITIONS.battleFoe.focus.foe.scale));
+        } else if(CMODE == DRAWMODE.BATTLE_DEFAULT && NMODE == DRAWMODE.BATTLE_FOCUS_PLAYER) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.scale) - POSITIONS.battleFoeBase.posR,
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.player.scale) - POSITIONS.battleFoeBase.focus.player.posR),
+                transitionValue(
+                    POSITIONS.battleFoeBase.posT,
+                    POSITIONS.battleFoeBase.focus.player.posT),
+                transitionValue(
+                    textures.battleBase.width * POSITIONS.battleFoeBase.scale,
+                    textures.battleBase.width * POSITIONS.battleFoeBase.focus.player.scale),
+                transitionValue(
+                    textures.battleBase.height * POSITIONS.battleFoeBase.scale,
+                    textures.battleBase.height * POSITIONS.battleFoeBase.focus.player.scale));
+            ctx_top.drawImage(
+                textures.battle_foe,
+                transitionValue(
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.scale) - POSITIONS.battleFoe.posR,
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.focus.player.scale) - POSITIONS.battleFoe.focus.player.posR),
+                transitionValue(
+                    POSITIONS.battleFoe.posT,
+                    POSITIONS.battleFoe.focus.player.posT),
+                transitionValue(
+                    textures.battle_foe.width * POSITIONS.battleFoe.scale,
+                    textures.battle_foe.width * POSITIONS.battleFoe.focus.player.scale),
+                transitionValue(
+                    textures.battle_foe.height * POSITIONS.battleFoe.scale,
+                    textures.battle_foe.height * POSITIONS.battleFoe.focus.player.scale));
         } else if(CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER) {
-            //
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.focus.player.scale) - POSITIONS.battleFoeBase.focus.player.posR,
+                    canvas_top.width - (textures.battleBase.width * POSITIONS.battleFoeBase.scale) - POSITIONS.battleFoeBase.posR),
+                transitionValue(
+                    POSITIONS.battleFoeBase.focus.player.posT,
+                    POSITIONS.battleFoeBase.posT),
+                transitionValue(
+                    textures.battleBase.width * POSITIONS.battleFoeBase.focus.player.scale,
+                    textures.battleBase.width * POSITIONS.battleFoeBase.scale),
+                transitionValue(
+                    textures.battleBase.height * POSITIONS.battleFoeBase.focus.player.scale,
+                    textures.battleBase.height * POSITIONS.battleFoeBase.scale));
+            ctx_top.drawImage(
+                textures.battle_foe,
+                transitionValue(
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.focus.player.scale) - POSITIONS.battleFoe.focus.player.posR,
+                    canvas_top.width - (textures.battle_foe.width * POSITIONS.battleFoe.scale) - POSITIONS.battleFoe.posR),
+                transitionValue(
+                    POSITIONS.battleFoe.focus.player.posT,
+                    POSITIONS.battleFoe.posT),
+                transitionValue(
+                    textures.battle_foe.width * POSITIONS.battleFoe.focus.player.scale,
+                    textures.battle_foe.width * POSITIONS.battleFoe.scale),
+                transitionValue(
+                    textures.battle_foe.height * POSITIONS.battleFoe.focus.player.scale,
+                    textures.battle_foe.height * POSITIONS.battleFoe.scale));
         } else if(CMODE == DRAWMODE.BATTLE_FOCUS_FOE) {
             ctx_top.drawImage(
                 textures.battleBase,
@@ -94,18 +141,91 @@ function drawOpponentBase() {
 function drawPlayerBase() {
     ctx_top.restore();
 
-    ctx_top.drawImage(
-        textures.battleBase,
-        POSITIONS.battlePlayerBase.posL,
-        canvas_top.height - POSITIONS.battlePlayerBase.posB,
-        textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
-        textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
-    ctx_top.drawImage(
-        textures.battle_players,
-        POSITIONS.battlePlayer.posL,
-        canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - POSITIONS.battlePlayer.posB,
-        textures.battle_players.width * POSITIONS.battlePlayer.scale,
-        textures.battle_players.height * POSITIONS.battlePlayer.scale);
+
+    if(!inTransition) {
+        ctx_top.drawImage(
+            textures.battleBase,
+            CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battlePlayerBase.focus.player.posL : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battlePlayerBase.focus.foe.posL : POSITIONS.battlePlayerBase.posL),
+            canvas_top.height - (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battlePlayerBase.focus.player.posB : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battlePlayerBase.focus.foe.posL : POSITIONS.battlePlayerBase.posB)),
+            textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
+            textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
+        ctx_top.drawImage(
+            textures.battle_players,
+            (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battlePlayer.focus.player.posL : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battlePlayer.focus.foe.posL : POSITIONS.battlePlayer.posL)),
+            canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - (CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER ? POSITIONS.battlePlayer.focus.player.posB : (CMODE == DRAWMODE.BATTLE_FOCUS_FOE ? POSITIONS.battlePlayer.focus.foe.posB : POSITIONS.battlePlayer.posB)),
+            textures.battle_players.width * POSITIONS.battlePlayer.scale,
+            textures.battle_players.height * POSITIONS.battlePlayer.scale);
+    } else {
+        if(CMODE == DRAWMODE.BATTLE_DEFAULT && NMODE == DRAWMODE.BATTLE_FOCUS_PLAYER) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    POSITIONS.battlePlayerBase.posL,
+                    POSITIONS.battlePlayerBase.focus.player.posL),
+                canvas_top.height - POSITIONS.battlePlayerBase.posB,
+                textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
+                textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
+            ctx_top.drawImage(
+                textures.battle_players,
+                transitionValue(
+                    POSITIONS.battlePlayer.posL,
+                    POSITIONS.battlePlayer.focus.player.posL),
+                canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - POSITIONS.battlePlayer.posB,
+                textures.battle_players.width * POSITIONS.battlePlayer.scale,
+                textures.battle_players.height * POSITIONS.battlePlayer.scale);
+        } else if(CMODE == DRAWMODE.BATTLE_DEFAULT && NMODE == DRAWMODE.BATTLE_FOCUS_FOE) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    POSITIONS.battlePlayerBase.posL,
+                    POSITIONS.battlePlayerBase.focus.foe.posL),
+                canvas_top.height - POSITIONS.battlePlayerBase.posB,
+                textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
+                textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
+            ctx_top.drawImage(
+                textures.battle_players,
+                transitionValue(
+                    POSITIONS.battlePlayer.posL,
+                    POSITIONS.battlePlayer.focus.foe.posL),
+                canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - POSITIONS.battlePlayer.posB,
+                textures.battle_players.width * POSITIONS.battlePlayer.scale,
+                textures.battle_players.height * POSITIONS.battlePlayer.scale);
+        } else if(CMODE == DRAWMODE.BATTLE_FOCUS_PLAYER) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    POSITIONS.battlePlayerBase.focus.player.posL,
+                    POSITIONS.battlePlayerBase.posL),
+                canvas_top.height - POSITIONS.battlePlayerBase.posB,
+                textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
+                textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
+            ctx_top.drawImage(
+                textures.battle_players,
+                transitionValue(
+                    POSITIONS.battlePlayer.focus.player.posL,
+                    POSITIONS.battlePlayer.posL),
+                canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - POSITIONS.battlePlayer.posB,
+                textures.battle_players.width * POSITIONS.battlePlayer.scale,
+                textures.battle_players.height * POSITIONS.battlePlayer.scale);
+        } else if(CMODE == DRAWMODE.BATTLE_FOCUS_FOE) {
+            ctx_top.drawImage(
+                textures.battleBase,
+                transitionValue(
+                    POSITIONS.battlePlayerBase.focus.foe.posL,
+                    POSITIONS.battlePlayerBase.posL),
+                canvas_top.height - POSITIONS.battlePlayerBase.posB,
+                textures.battleBase.width * POSITIONS.battlePlayerBase.scale,
+                textures.battleBase.height * POSITIONS.battlePlayerBase.scale);
+            ctx_top.drawImage(
+                textures.battle_players,
+                transitionValue(
+                    POSITIONS.battlePlayer.focus.foe.posL,
+                    POSITIONS.battlePlayer.posL),
+                canvas_top.height - (textures.battle_players.height * POSITIONS.battlePlayer.scale) - POSITIONS.battlePlayer.posB,
+                textures.battle_players.width * POSITIONS.battlePlayer.scale,
+                textures.battle_players.height * POSITIONS.battlePlayer.scale);
+        }
+    }
 }
 
 
