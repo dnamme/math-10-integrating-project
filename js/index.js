@@ -42,8 +42,6 @@ function stopGame() {
     clearInterval(frameDrawer);
 }
 
-// https://www.reddit.com/r/pokemonzetaomicron/comments/1xbnoi/black_white_texture_pack_updated/
-
 
 function transitionValue(start, end, frame = frameNum, maxFrames = maxFrameNum) {
     if(start == end) return start;

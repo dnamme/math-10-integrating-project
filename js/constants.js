@@ -129,7 +129,7 @@ const SCRIPT = {
         ["This is the end for you,", "Overlord Calvin!"],
         ["I have one more trick up my", "sleeve."],
         ["[Calvin uses \"Reveal\"]", ""],
-        ["There is something I need to", "show you"],
+        ["There is something I need to", "show you."],
         ["As you can see,", "I am no Overlord,"],
         ["but I am the master of the", "Sia Region looking for potential"],
         ["predecessors as there are", "greater forces threatening the"],
@@ -149,25 +149,42 @@ const SCRIPT = {
         ["the light to Region Sia.", ""]
     ],
     POST_FINAL: [
-        "The original goal of the game,",
-        "Pokemon, was to have trainers",
-        "defeat their challengers and",
-        "prove victorious. In contrast to",
-        "this, we must realize that",
-        "Pokemon trainers, like students,",
-        "may lose HP when they commit",
-        "mistakes but through those, they",
-        "learn from their challengers,",
-        "similar to how our professors",
-        "teach us even if we commit",
-        "mistakes. However again, we must",
-        "know that this is a two-way street,",
-        "wherein we must also be helping",
-        "each other out, since our",
-        "professors are humans too and",
-        "every once in a while, they too,",
-        "need our help."
-    ]
+        [
+            "The original goal of the game,",
+            "Pokemon, was to have trainers",
+            "defeat their challengers and"
+        ], [
+            "prove victorious. In contrast to",
+            "this, we must realize that",
+            "Pokemon trainers, like students,"
+        ], [
+            "may lose HP when they commit",
+            "mistakes but through those, they",
+            "learn from their challengers,"
+        ], [
+            "similar to how our professors",
+            "teach us even if we commit",
+            "mistakes. However again, we must"
+        ], [
+            "know that this is a two-way street,",
+            "wherein we must also be helping",
+            "each other out, since our"
+        ], [
+            "professors are humans too and",
+            "every once in a while, they too,",
+            "need our help."
+        ]
+    ],
+    POST_FINAL2: {
+        thankYou: "Thank you Sir Calvin <3",
+        names: [
+            "Emman Evangelista",
+            "Cherish Magpayo",
+            "Joseph Izon"
+        ],
+        yearCourse: "1 BS CS-DGDD",
+        section: "Math 10-TT"
+    }
 };
 
 const QUESTIONS = [
@@ -322,7 +339,7 @@ const QUESTIONS = [
     }, */{
         question: [
             "What should I multiply an odd",
-            "number to to get a product that",
+            "number with to get a product that",
             "is odd?"
         ],
         choices: [
@@ -653,10 +670,27 @@ const POSITIONS = {
     battleChoices: {
         posL_C: 127,
         posR_C: 385,
-        posT_Top_s: 128, // 128
+        posT_Top_s: 128,
         posT_Top: [114, 142],
-        posT_Bot_s: 230, // 230
+        posT_Bot_s: 230,
         posT_Bot: [216, 244]
+    },
+    text_final: {
+        posL: 16,
+        posT: [128, 148, 168]
+    },
+    text_final2: {
+        posL: 16,
+        posT: 96,
+        name: {
+            posT: [96, 116, 136]
+        },
+        yearCourse: {
+            posT: 176
+        },
+        section: {
+            posT: 196
+        }
     }
 };
 

@@ -18,7 +18,7 @@ var GAME = {
 
     playerTurn: true,
 
-    lastMove: true,
+    lastMove: false,
     inEndSequence: false
 };
 
@@ -71,6 +71,7 @@ function battleClick(x, y) {
             // console.log(y);
             for(var i = 0; i < QUESTIONS[GAME.questionIndex].choices.length; i++) {
                 if(y >= POSITIONS.questionChoices.posT[i] / 384 * 706 && y <= (POSITIONS.questionChoices.posT[i] + POSITIONS.questionChoices.h) / 384 * 706) {
+                    playClickSound();
                     playerSelectChoice(i);
                     break;
                 }
@@ -99,8 +100,8 @@ function playerUseMove(index) {
 
         setTimeout(function() {
             // damage
-            var mindmg = 100;
-            var maxdmg = 300;
+            var mindmg = 50;
+            var maxdmg = 200;
             var dmg = mindmg + Math.floor(Math.random() * maxdmg);
 
             var minhp = 20;

@@ -66,6 +66,7 @@ var textures = {
 var audio = {
     theme_opening: null,
     theme_battle: null,
+    theme_victory: null,
 
     click: null,
     click_invalid: null,
@@ -75,7 +76,9 @@ var audio = {
 
     damage_normal: null,
     damage_super: null,
-    damage_weak: null
+    damage_weak: null,
+
+    battle_increase: null,
 };
 
 var onLoadedFunction = function() {
@@ -90,6 +93,7 @@ function loaded() { return numLoaded + "/" + maxNumLoaded; }
 function initializeAudio() {
     audio.theme_opening = document.getElementById("theme-opening");
     audio.theme_battle = document.getElementById("theme-battle");
+    audio.theme_victory = document.getElementById("theme-victory");
 
     audio.click = document.getElementById("click");
     audio.click_invalid = document.getElementById("click-invalid");
@@ -100,6 +104,8 @@ function initializeAudio() {
     audio.damage_normal = document.getElementById("damage-normal");
     audio.damage_super = document.getElementById("damage-super");
     audio.damage_weak = document.getElementById("damage-weak");
+
+    audio.battle_increase = document.getElementById("battle-increase");
 }
 
 function loadTextures() {
@@ -299,8 +305,6 @@ function drawFrame() {
             frameNum++;
         }
 
-        // if(numLoaded < maxNumLoaded) return;
-
         // fill with black
         ctx_top.restore();
         ctx_top.fillStyle = "#000000";
@@ -313,6 +317,7 @@ function drawFrame() {
 
         var BASEMODE = Math.floor(CMODE);
         
+
         if(BASEMODE == DRAWMODE.LOADING.BASE) {
             if(bgMode != BASEMODE)
                 changeBackground(null, "black");
@@ -357,7 +362,10 @@ function drawFrame() {
 
             if(!keepTrackOfFrame && CMODE == DRAWMODE.LOADING.IDLE_BLACK)
                 setTrackFrame(2.0 * FPS, DRAWMODE.STORY_LIGHTNING.BOLT);
-        } else if(BASEMODE == DRAWMODE.STORY_LIGHTNING.BASE) {
+        }
+        
+        
+        else if(BASEMODE == DRAWMODE.STORY_LIGHTNING.BASE) {
             if(bgMode != BASEMODE) {
                 changeBackground(null, "black");
                 lineIndex = 0;
@@ -400,7 +408,10 @@ function drawFrame() {
                 ctx_bot.fillStyle = "rgba(0,0,0," + transitionValue(0.0, 1.0, frameNum, maxFrameNum) + ")";
                 ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
             }
-        } else if(BASEMODE == DRAWMODE.STORY_HOOD_TP.BASE) {
+        }
+        
+        
+        else if(BASEMODE == DRAWMODE.STORY_HOOD_TP.BASE) {
             if(bgMode != BASEMODE) {
                 changeBackground("./img/stills/story_hood_tp.png", "black");
                 lineIndex = 0;
@@ -445,7 +456,10 @@ function drawFrame() {
 
             else if(!keepTrackOfFrame && CMODE == DRAWMODE.STORY_HOOD_TP.IDLE_BLACK)
                 setTrackFrame(3.0 * FPS, DRAWMODE.STORY_HOOD_SPOTLIGHT_1.TRANSITION_FADEIN);
-        } else if(BASEMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_1.BASE || BASEMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_2) {
+        }
+        
+        
+        else if(BASEMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_1.BASE || BASEMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_2) {
             if(bgMode != BASEMODE) {
                 lineIndex = 0;
                 isIdle = false;
@@ -518,7 +532,10 @@ function drawFrame() {
                 drawOverlayMessageBox(
                     CMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_1.DIALOGUE ? SCRIPT.STORY_HOOD_SPOTLIGHT_1[lineIndex][0] : SCRIPT.STORY_HOOD_SPOTLIGHT_2[lineIndex][0],
                     CMODE == DRAWMODE.STORY_HOOD_SPOTLIGHT_1.DIALOGUE ? SCRIPT.STORY_HOOD_SPOTLIGHT_1[lineIndex][1] : SCRIPT.STORY_HOOD_SPOTLIGHT_2[lineIndex][1]);
-        } else if(BASEMODE == DRAWMODE.STORY_FEATURE) {
+        }
+        
+        
+        else if(BASEMODE == DRAWMODE.STORY_FEATURE) {
             if(bgMode != BASEMODE) {
                 changeBackground("./img/stills/story_feature.png", "#3a3a3a");
                 lineIndex = 0;
@@ -553,7 +570,10 @@ function drawFrame() {
                 var c = transitionValue(58, 0);
                 changeBackground(null, "rgba(" + c + "," + c + "," + c + "," + transitionValue(1.0, 0.5) + ")");
             }
-        } else if(CMODE == DRAWMODE.STORY_STRATEGY) {
+        }
+        
+        
+        else if(CMODE == DRAWMODE.STORY_STRATEGY) {
             if(bgMode != CMODE) {
                 changeBackground("./img/stills/story_strategy.png", "3a3a3a");
                 lineIndex = 0;
@@ -585,7 +605,10 @@ function drawFrame() {
                 var c = transitionValue(58, 0);
                 changeBackground(null, "rgba(" + c + "," + c + "," + c + "," + transitionValue(1.0, 0.5) + ")");
             }
-        } else if(CMODE == DRAWMODE.STORY_CRASH) {
+        }
+        
+        
+        else if(CMODE == DRAWMODE.STORY_CRASH) {
             if(bgMode != CMODE) {
                 changeBackground("./img/stills/window.png", "rgba(0,0,0,0.5)");
 
@@ -605,7 +628,10 @@ function drawFrame() {
 
             // press anywhere
             drawText_anywhere("black");
-        } else if(CMODE == DRAWMODE.STORY_APPEAR) {
+        }
+        
+        
+        else if(CMODE == DRAWMODE.STORY_APPEAR) {
             if(bgMode != CMODE) {
                 changeBackground("./img/stills/story_appear.png", "rgba(0,0,0,0.5)");
                 lineIndex = 0;
@@ -625,10 +651,14 @@ function drawFrame() {
 
             // overlay message
             drawFightMessageBox(SCRIPT.STORY_APPEAR[lineIndex][0], SCRIPT.STORY_APPEAR[lineIndex][1], "left", "white", "rgba(255,255,255,0.2)")
-        } else if(CMODE == DRAWMODE.BATTLE_VS) {
+        }
+        
+        
+        /*else if(CMODE == DRAWMODE.BATTLE_VS) {
             // dev
             drawText_dev("dev todo");
-        } else if(BASEMODE >= DRAWMODE.BATTLE_DEFAULT && BASEMODE <= DRAWMODE.BATTLE_END) {
+        } */
+        else if(BASEMODE >= DRAWMODE.BATTLE_DEFAULT && BASEMODE <= DRAWMODE.BATTLE_END) {
             if(bgMode != DRAWMODE.BATTLE_DEFAULT) {
                 changeBackground("./img/game/elite8_bg.png", "rgba(0,0,0,0.5)", DRAWMODE.BATTLE_DEFAULT);
                 lineIndex = 0;
@@ -692,11 +722,18 @@ function drawFrame() {
 
             if(GAME.inEndSequence)
                 drawText_anywhere();
-        } else if(CMODE == DRAWMODE.POST_EPILOGUE) {
+        }
+        
+        
+        else if(CMODE == DRAWMODE.POST_EPILOGUE) {
             if(bgMode != CMODE) {
                 changeBackground("./img/stills/post_epilogue.png");
                 lineIndex = 0;
             }
+
+            // theme
+            if(audio.theme_victory.paused)
+                audio.theme_victory.play();
 
             // figure
             ctx_top.restore();
@@ -712,7 +749,10 @@ function drawFrame() {
 
             // anywhere
             drawText_anywhere("black");
-        } else if(CMODE == DRAWMODE.POST_FINAL || CMODE == DRAWMODE.POST_FINAL2) {
+        }
+        
+        
+        else if(CMODE == DRAWMODE.POST_FINAL || CMODE == DRAWMODE.POST_FINAL2) {
             if(bgMode != CMODE) {
                 changeBackground("./img/stills/class-picture.png");
                 lineIndex = 0;
@@ -720,7 +760,7 @@ function drawFrame() {
 
             // picture
             ctx_top.restore();
-            ctx_top.fillStyle = "#003a6c";
+            ctx_top.fillStyle = "black";
             ctx_top.fillRect(0, 0, canvas_top.width, canvas_top.height);
             ctx_top.drawImage(
                 textures.classPicture,
@@ -731,20 +771,22 @@ function drawFrame() {
 
             // bottom fill
             ctx_bot.restore();
-            ctx_bot.fillStyle = "#003a6c";
+            ctx_bot.fillStyle = "black";
             ctx_bot.fillRect(0, 0, canvas_bot.width, canvas_bot.height);
                 
             if(CMODE == DRAWMODE.POST_FINAL) {
                 // anywhere
-                ctx_top.fillStyle = "white";
-                ctx_top.font = "48px PixelOperatorBold";
-                ctx_top.textAlign = "center";
-                ctx_top.fillText("Press to continue.", canvas_top.width / 2, canvas_top.height - 32);
+                ctx_bot.fillStyle = "white";
+                ctx_bot.font = "48px PixelOperatorBold";
+                ctx_bot.textAlign = "center";
+                ctx_bot.fillText("Press to continue.", canvas_bot.width / 2, canvas_bot.height - 16);
                 
                 ctx_bot.fillStyle = "white";
                 ctx_bot.font = "28px PixelOperatorBold";
-                for(var i = 0; i < SCRIPT.POST_FINAL.length; i++) {
-                    ctx_bot.fillText(SCRIPT.POST_FINAL[i], 16, 32 + (20 * i));
+                ctx_bot.textAlign = "left";
+
+                for(var i = 0; i < 3; i++) {
+                    ctx_bot.fillText(SCRIPT.POST_FINAL[lineIndex][i], POSITIONS.text_final.posL, POSITIONS.text_final.posT[i]);
                 }
             } else if(CMODE == DRAWMODE.POST_FINAL2) {
                 ctx_bot.restore();
@@ -752,16 +794,18 @@ function drawFrame() {
                 ctx_bot.font = "48px PixelOperatorBold";
                 ctx_bot.textAlign = "center";
 
-                ctx_bot.fillText("Thank you Sir Calvin <3", canvas_bot.width / 2, canvas_bot.height / 4);
+                ctx_bot.fillText(SCRIPT.POST_FINAL2.thankYou, canvas_bot.width / 2, POSITIONS.text_final2.posT);
                 
                 ctx_bot.font = "28px PixelOperatorBold";
                 ctx_bot.textAlign = "left";
 
-                ctx_bot.fillText("Emman Evangelista", 16, canvas_bot.height / 4 + 96);
-                ctx_bot.fillText("Cherish Magpayo", 16, canvas_bot.height / 4 + 116);
-                ctx_bot.fillText("Joseph Izon", 16, canvas_bot.height / 4 + 136);
+                for(var i = 0; i < 3; i++) {
+                    ctx_bot.fillText(SCRIPT.POST_FINAL2.names[i], POSITIONS.text_final2.posL, POSITIONS.text_final2.posT + POSITIONS.text_final2.name.posT[i]);
+                }
 
-                ctx_bot.fillText("1 BS CS-DGDD", 16, canvas_bot.height / 4 + 176);
+                ctx_bot.fillText(SCRIPT.POST_FINAL2.yearCourse, POSITIONS.text_final2.posL, POSITIONS.text_final2.posT + POSITIONS.text_final2.yearCourse.posT);
+
+                ctx_bot.fillText(SCRIPT.POST_FINAL2.section, POSITIONS.text_final2.posL, POSITIONS.text_final2.posT + POSITIONS.text_final2.section.posT);
             }
         }
     } catch(error) {
@@ -826,10 +870,18 @@ function handleClick(e) {
             battleClick(x / canvas_bot.offsetWidth * textures.battleBGBase.width, y / canvas_bot.offsetHeight * textures.battleBGBase.height);
         else {
             playClickSound();
-            if(lineIndex == 14)
+            if(lineIndex == 14) {
                 CMODE = DRAWMODE.POST_EPILOGUE;
-            else if(!keepTrackOfFrame) {
+                if(!audio.theme_battle.paused)
+                    audio.theme_battle.pause();
+            } else if(!keepTrackOfFrame) {
                 if(lineIndex == 0 || lineIndex == 12) {
+                    if(lineIndex == 12) {
+                        audio.battle_increase.play();
+                        GAME.opponent.hp = GAMEDATA.OPPONENT.HPMAX;
+                        GAME.player.hp = GAMEDATA.PLAYER.HPMAX;
+                    }
+
                     transitionToDefault();
                     setTimeout(transitionToFocusFoe, 0.2 * 1000);
                 } else if(lineIndex == 9) {
@@ -848,14 +900,13 @@ function handleClick(e) {
         else
             lineIndex++;
     } else if(CMODE == DRAWMODE.POST_FINAL) {
-        CMODE = DRAWMODE.POST_FINAL2;
+        if(lineIndex == 5)
+            CMODE = DRAWMODE.POST_FINAL2;
+        else
+            lineIndex++;
     }
 }
 
-
-function changeMode(m) {
-    CMODE = m;
-}
 
 function changeBackground(url, color, mode = CMODE) {
     bgMode = Math.floor(CMODE);
