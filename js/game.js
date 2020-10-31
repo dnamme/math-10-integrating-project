@@ -783,10 +783,10 @@ function drawFrame() {
                 
                 ctx_bot.fillStyle = "white";
                 ctx_bot.font = "28px PixelOperatorBold";
-                ctx_bot.textAlign = "left";
+                ctx_bot.textAlign = "center";
 
                 for(var i = 0; i < 3; i++) {
-                    ctx_bot.fillText(SCRIPT.POST_FINAL[lineIndex][i], POSITIONS.text_final.posL, POSITIONS.text_final.posT[i]);
+                    ctx_bot.fillText(SCRIPT.POST_FINAL[lineIndex][i], canvas_bot.width / 2, POSITIONS.text_final.posT[i]);
                 }
             } else if(CMODE == DRAWMODE.POST_FINAL2) {
                 ctx_bot.restore();
